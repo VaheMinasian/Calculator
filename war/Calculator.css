@@ -1,5 +1,35 @@
 /** Add css rules here for your application. */
 
+#calc{
+	text-align: center;
+	border: 2px solid green;
+	border-radius: 5px;
+	width: 244px;
+	height: 250px;
+	margin-left: 42%;
+}
+.gwt-Button{
+	font-size: 15pt !important;
+	width: 60px;
+	height: 45px;
+	outline: none;
+}
+.gwt-middle-row{
+	margin-top: 1px;
+	margin-left: 2px;
+}
+.gwt-Label{
+	color: green;
+	font-weight: bold;
+	height: 50px;
+	width: 23px;
+	margin: 2px;
+	border: 1px solid green;
+	padding-left: 215px;
+	padding-top: 10px;
+	font-size: 2em;
+	border-radius: 3px;
+}
 
 /** Example rules used by the template application (remove for your app) */
 h1 {
