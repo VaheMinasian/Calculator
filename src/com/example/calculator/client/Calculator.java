@@ -1,24 +1,12 @@
 package com.example.calculator.client;
 
-import java.awt.Component;
-
-import javax.swing.SwingConstants;
+import java.awt.ComponentOrientation;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dev.jjs.ast.JLabel;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.SuggestBox;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -26,44 +14,65 @@ import com.google.gwt.user.client.ui.SuggestBox;
 
 
 public class Calculator implements EntryPoint {
+	
+		// panels
 	  private VerticalPanel mainPanel = new VerticalPanel();
 	  
 	  private HorizontalPanel upperRow = new HorizontalPanel();
-	  private Label resultScreen = new Label("0");
-
 	  private VerticalPanel middleRow = new VerticalPanel();
 
+	  // display area
+	  private static Label resultScreen = new Label("0");
+
+	  
+	  // first row buttons
+	  private HorizontalPanel nullRow = new HorizontalPanel();
 	  private HorizontalPanel firstRow = new HorizontalPanel();
 	  private HorizontalPanel secondRow = new HorizontalPanel();
 	  private HorizontalPanel thirdRow = new HorizontalPanel();
 	  private HorizontalPanel forthRow = new HorizontalPanel();
 
-	  private Button addButton = new Button("+");
-	  private Button subtrButton = new Button("-");
-	  private Button multipButton = new Button("x");
-	  private Button devisionButton = new Button("/");
-	  private Button calculateButton = new Button("=");
-	  private Button commaButton = new Button(",");
-	  private Button oneButton = new Button("1");
-	  private Button twoButton = new Button("2");
-	  private Button threeButton = new Button("3");
-	  private Button fourButton = new Button("4");
-	  private Button fiveButton = new Button("5");
-	  private Button sixButton = new Button("6");
-	  private Button sevenButton = new Button("7");
-	  private Button eightButton = new Button("8");
-	  private Button nineButton = new Button("9");
-	  private Button zeroButton = new Button("0");
+	  private calcButton cButton = new calcButton("C");
+	  private calcButton backButton = new calcButton("⌫");
+	  private calcButton sqrButton = new calcButton("a^2");
+	  private calcButton sqrRootButton = new calcButton("√");
+	  
+	  private calcButton addButton = new calcButton("+");
+	  private calcButton subtrButton = new calcButton("-");
+	  private calcButton multipButton = new calcButton("x");
+	  private calcButton devisionButton = new calcButton("/");
+	  private calcButton calculateButton = new calcButton("=");
+	  private calcButton commaButton = new calcButton(",");
+	  private calcButton oneButton = new calcButton("1");
+	  private calcButton twoButton = new calcButton("2");
+	  private calcButton threeButton = new calcButton("3");
+	  private calcButton fourButton = new calcButton("4");
+	  private calcButton fiveButton = new calcButton("5");
+	  private calcButton sixButton = new calcButton("6");
+	  private calcButton sevenButton = new calcButton("7");
+	  private calcButton eightButton = new calcButton("8");
+	  private calcButton nineButton = new calcButton("9");
+	  private calcButton zeroButton = new calcButton("0");
+	  
+	  
+	  private static String currentResult = "0";
+
+	  
 
   /**
    * Entry point method.
    */
   public void onModuleLoad() {
 	  //Suggests the valid operators
-	  
+	  resultScreen.getElement().setAttribute("maxlength", "2");
 	  upperRow.add(resultScreen);
 	  
-	  firstRow.add(oneButton);
+	  nullRow.add(cButton); 
+	  nullRow.add(backButton);
+	  nullRow.add(sqrButton);
+	  nullRow.add(sqrRootButton);
+	  
+	  firstRow.add(oneButton); 
 	  firstRow.add(twoButton);
 	  firstRow.add(threeButton);
 	  firstRow.add(addButton);
@@ -77,18 +86,20 @@ public class Calculator implements EntryPoint {
 	  thirdRow.add(eightButton);
 	  thirdRow.add(nineButton);
 	  thirdRow.add(multipButton);
-
+	  
 	  forthRow.add(commaButton);
 	  forthRow.add(zeroButton);
 	  forthRow.add(calculateButton);
 	  forthRow.add(devisionButton);
-	
+	  
+	  middleRow.add(nullRow);
 	  middleRow.add(firstRow);
 	  middleRow.add(secondRow);
 	  middleRow.add(thirdRow);
 	  middleRow.add(forthRow);
 	  
 	  middleRow.addStyleName("gwt-middle-row");
+	  
 	  mainPanel.add(upperRow);
 	  mainPanel.add(middleRow);
    
@@ -97,7 +108,7 @@ public class Calculator implements EntryPoint {
 	  
 	    RootPanel.get("calc").add(mainPanel);
    
-	    
+	    /*
 	    calculateButton.addClickHandler(new ClickHandler() {
         public void onClick(ClickEvent event) {
           calculate();
@@ -105,7 +116,7 @@ public class Calculator implements EntryPoint {
   }	
 
 		private void calculate() {
-		/*
+		
 			final String operator = operatorTextBox.getText().trim();
 			calculateButton.setFocus(true);
 			if ((!operator.equals("*") && !operator.equals("+") && !operator.equals("%")) || !isInteger(operand1TextBox.getText().trim())|| !isInteger(operand2TextBox.getText().trim())) {
@@ -136,6 +147,41 @@ public class Calculator implements EntryPoint {
 			 }
 			*/}
 		//Checkes if a String could be seen as an integer
+		public static String getResultScreen() {
+			return resultScreen.getText();
+		}
+		public static void setResultScreen(String number) {
+			resultScreen.setText(number);
+		}
+		public static void updateDisplay(String s) {
+			if (s=="C") {
+				currentResult = "0";
+				resultScreen.setText("0");
+				return;
+			}
+			if(s=="⌫"){
+				int temp = resultScreen.getText().trim().length(); 
+				currentResult = resultScreen.getText().substring(0, temp-1);
+				resultScreen.setText(currentResult);
+				return;
+				}
+			
+			  if (currentResult=="0") {
+				  if (s=="0") {
+				  }
+				  else{
+					  currentResult = s;
+					  resultScreen.setText(currentResult);
+				  }
+			  } else if (currentResult != "0") {
+				  currentResult += s; 
+				  resultScreen.setText(currentResult);
+			  }
+			  if(resultScreen.getText().trim().length()>=12) {
+					resultScreen.setText(resultScreen.getText().substring( 0, 12 ));
+					}
+		}
+		
 		public boolean isInteger( String input )
 		{
 		   try
