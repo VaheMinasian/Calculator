@@ -1,24 +1,27 @@
 package com.example.calculator.client;
 
-import com.google.gwt.event.dom.client.ClickEvent; 
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
 
-public class calcButton extends Button implements ClickHandler {
+public class calcButton extends Button implements MouseDownHandler {
 
 	String buttonLabel = ""; 
 	
 	public calcButton(String string) {
 		this.buttonLabel = string;
 		this.setText(buttonLabel);
-		addClickHandler(this);
-	}
-	@Override
-	public void onClick(ClickEvent event) {
-		Calculator.updateDisplay(this.buttonLabel);
+		addMouseDownHandler(this);
 	}
 	public String asString() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void onMouseDown(MouseDownEvent event) {
+		// TODO Auto-generated method stub
+		Calculator.updateDisplay(this.buttonLabel);
+
+	}
+	
 }

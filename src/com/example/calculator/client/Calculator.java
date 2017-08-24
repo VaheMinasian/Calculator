@@ -1,6 +1,6 @@
 package com.example.calculator.client;
 
-import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.EntryPoint; 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -113,17 +113,32 @@ public class Calculator implements EntryPoint {
    
     // Associate the Main panel with the HTML host page.
 	    RootPanel.get("calc").add(mainPanel);
-   
-	    
-	   /* calculateButton.addKeyDownHandler(new KeyDownHandler() {
-	        public void onKeyDown(KeyDownEvent event) {
-	          if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-	            updateDisplay("=");
-	          }
-	        }
-	      });
-	    */
-  }
+	     
+	    myButtonListener(oneButton);
+	    myButtonListener(twoButton);
+	    myButtonListener(threeButton);
+	    myButtonListener(fourButton);
+	    myButtonListener(fiveButton);
+	    myButtonListener(sixButton);
+	    myButtonListener(sevenButton);
+	    myButtonListener(eightButton);
+	    myButtonListener(nineButton);
+	    myButtonListener(zeroButton);
+	 
+
+  }	   
+  
+  private void myButtonListener(calcButton button) {
+			
+			button.addKeyDownHandler(new KeyDownHandler() {
+				@Override
+				public void onKeyDown(KeyDownEvent event) {
+					if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
+						updateDisplay("=");
+				}
+			});
+		}
+  
 	    private static void calculate(String s) {
 			if (operator=="") {
 			if(s=="+") {
@@ -310,7 +325,6 @@ public class Calculator implements EntryPoint {
 			case "9":
 				
 				if ((current=="op1")&&(op1==0)) {
-					Window.alert("a");
 					if(decimal1)
 						currentString += s; 
 					else if (!decimal1)
@@ -322,15 +336,11 @@ public class Calculator implements EntryPoint {
 					resultScreen.setText(adjustResult(currentString));
 
 				} else if ((current=="op1")&&(op1!=0)) {
-					Window.alert("b");
-					
 					currentString += s;
 					op1 = Double.parseDouble(currentString);
 					resultScreen.setText(adjustResult(currentString));
 
 				} else if ((current=="op2")&&(op2==0)) {
-					Window.alert("c");
-
 					if(decimal2)
 						currentString += s; 
 					else if(!decimal2)
@@ -339,8 +349,6 @@ public class Calculator implements EntryPoint {
 					resultScreen.setText(adjustResult(currentString));
 
 				}	else if ((current=="op2")&&(op2!=0)) {
-					Window.alert("d");
-
 						currentString += s;
 					op2 = Double.parseDouble(currentString);
 					resultScreen.setText(adjustResult(currentString));
